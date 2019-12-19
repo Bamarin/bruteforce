@@ -40,7 +40,7 @@ int main()
 
 	//"mmmmmassbammmm" 256
 	//"msabmbbsaammmm" 128
-	Brute generator{ 14, "msab" };
+	Brute generator{ 14, "msab", "msabmsabmsabmm" };
 
 	do{
 		password = generator.generatePassword();
