@@ -14,13 +14,13 @@
   #define CBC 1
 #endif
 
-#ifndef ECB
-  #define ECB 1
-#endif
+//#ifndef ECB
+//  #define ECB 1
+//#endif
 
-#ifndef CTR
-  #define CTR 1
-#endif
+//#ifndef CTR
+//  #define CTR 1
+//#endif
 
 
 #define AES128 1

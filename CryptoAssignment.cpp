@@ -39,8 +39,8 @@ int main()
 	std::vector<uint8_t> key_vec;
 
 	//"mmmmmassbammmm" 256
-	//"msabmbbsaammmm" 128
-	Brute generator{ 14, "msab", "msabmsabmsabmm" };
+	//"msabssbbbbmmmm" 128
+	Brute generator{ 14, "msab", "msabssbbbbmmmm" };
 
 	do{
 		password = generator.generatePassword();
