@@ -3,7 +3,6 @@
 #include <iostream>
 #include "aes.hpp"
 #include "decryptionFunctions.h"
-#include "Brute.h"
 
 constexpr uint8_t iv[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
 
@@ -25,36 +24,51 @@ bool isCorrect(const uint8_t buffer[filesize])
 			buffer[3] == 'B');
 }
 
-int main()
-{
-	// Load file
-	std::ifstream file("encrypted.bin", std::ios::binary);
+uint8_t buffer[16] = { 'M', 'S', 'A', 'B', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b' };
 
-	uint8_t buffer[filesize] = {};
-	file.read(reinterpret_cast<char*>(buffer), filesize);
+void decrypt() {
+	// Load file
+	//std::ifstream file("encrypted.bin", std::ios::binary);
+
+	//uint8_t buffer[filesize] = {};
+	//file.read(reinterpret_cast<char*>(buffer), filesize);
 
 	// Decrypt
 	AES_ctx ctx = {};
-	std::string password;
+	const std::string password = "msabmsabmsabms";
 	std::vector<uint8_t> key_vec;
 
-	//"mmmmmassbammmm" 256
-	//"mambsabmmmmmmm" 128
-	Brute generator{ 14, "msab", "mambsabmmmmmmm" };
+	deriveKeyFromPassword(password, key_vec);
 
-	do{
-		password = generator.generatePassword();
-		//std::cout << password << std::endl;
-		deriveKeyFromPassword(password, key_vec);
+	AES_init_ctx_iv(&ctx, key_vec.data(), iv);
+	AES_CBC_decrypt_buffer(&ctx, buffer, 16);
 
-		AES_init_ctx_iv(&ctx, key_vec.data(), iv);
-		AES_CBC_decrypt_buffer(&ctx, buffer, 4);//static_cast<uint32_t>(filesize));
+	// If the key is correct, buffer will now contain text that starts with "MSAB"
+	if (isCorrect(buffer))
+		std::cout << "Correct key: " << password << std::endl;
+}
 
-		// If the key is correct, buffer will now contain text that starts with "MSAB"
-		if (isCorrect(buffer)) {
-			std::cout << "Correct key: " << password << std::endl;
-			return 0;
-		}
-	} while (password != "bbbbbbbbbbbbbb");
+void encrypt() {
 
+	
+
+	// encrypt
+	AES_ctx ctx = {};
+	const std::string password = "msabmsabmsabms";
+	std::vector<uint8_t> key_vec;
+
+	deriveKeyFromPassword(password, key_vec);
+
+	AES_init_ctx_iv(&ctx, key_vec.data(), iv);
+	AES_CBC_encrypt_buffer(&ctx, buffer, 16);
+
+	// If the key is correct, buffer will now contain text that starts with "MSAB"
+	//if (isCorrect(buffer))
+	std::cout << "chipertext: " << buffer << std::endl;
+}
+
+int main()
+{
+	encrypt();
+	decrypt();
 }
