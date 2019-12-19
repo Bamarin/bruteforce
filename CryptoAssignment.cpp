@@ -39,8 +39,8 @@ int main()
 	std::vector<uint8_t> key_vec;
 
 	//"mmmmmassbammmm" 256
-	//"msabssbbbbmmmm" 128
-	Brute generator{ 14, "msab", "msabssbbbbmmmm" };
+	//"mambsabmmmmmmm" 128
+	Brute generator{ 14, "msab", "mambsabmmmmmmm" };
 
 	do{
 		password = generator.generatePassword();
@@ -48,7 +48,7 @@ int main()
 		deriveKeyFromPassword(password, key_vec);
 
 		AES_init_ctx_iv(&ctx, key_vec.data(), iv);
-		AES_CBC_decrypt_buffer(&ctx, buffer, static_cast<uint32_t>(filesize));
+		AES_CBC_decrypt_buffer(&ctx, buffer, 4);//static_cast<uint32_t>(filesize));
 
 		// If the key is correct, buffer will now contain text that starts with "MSAB"
 		if (isCorrect(buffer)) {

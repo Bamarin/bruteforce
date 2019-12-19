@@ -7,7 +7,7 @@ void Brute::increment(std::string& guess, int pos)
 {
 	if (pos < 0) return;
 	else {
-		if (pos == 9) {
+		if (pos == 6) {
 			std::cout << guess << "\n";
 		}
 		int v = values.find(guess[pos]);
