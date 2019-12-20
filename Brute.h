@@ -9,6 +9,7 @@ class Brute
 	std::string values;
 	std::string lastGuess;
 	void increment(std::string& guess, int pos);
+	std::string initializePassword();
 
 
 public:
